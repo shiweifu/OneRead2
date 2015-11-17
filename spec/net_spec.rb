@@ -15,18 +15,20 @@ describe "网络访问测试" do
       @body = result
     end
 
-    wait 3 do
-      @body.should.not.be == ""
+    wait 1 do
+      @body.should.not == ""
       @body.class.should.equal String
     end
   end
 
   it  'get json from url' do
+
+    [].should.be.empty
     Http::get_json(@json_url, {}) do | result |
       @body_hash = result
     end
 
-    wait 3 do
+    wait 1 do
       @body_hash.class.should.equal Hash
     end
 

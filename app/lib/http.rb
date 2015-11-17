@@ -25,7 +25,7 @@ module Http
     end
   end
 
-  def get_url(url)
+  def Http.get_url(url)
     u = NSURL.alloc.initWithString(url)
     NSString.stringWithContentsOfURL(u)
   end
