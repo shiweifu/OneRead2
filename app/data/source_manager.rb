@@ -1,6 +1,6 @@
 
 # 管理本地缓存的Source列表
-class RouterManager
+class SourceManager
 
   # 得到本地所有的日报类Source
   def daily_sources

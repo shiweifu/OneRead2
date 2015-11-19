@@ -48,10 +48,13 @@ GEM
     molinillo (0.3.1)
     motion-cocoapods (1.7.4)
       cocoapods (>= 0.34)
+    motion-imager (0.2.1)
+      motion-cocoapods (>= 1.4.1)
     motion-require (0.2.0)
     nap (0.8.0)
     netrc (0.7.8)
     rake (10.4.2)
+    sugarcube (3.3.6)
     thread_safe (0.3.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -66,4 +69,6 @@ PLATFORMS
 DEPENDENCIES
   afmotion
   bubble-wrap
+  motion-imager
   rake
+  sugarcube

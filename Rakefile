@@ -1,18 +1,9 @@
 # -*- coding: utf-8 -*-
 $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project/template/ios'
-require 'sugarcube-all'
-require 'sugarcube-repl'
 require 'motion-cocoapods'
-require 'afmotion'
 require 'bundler'
-require 'motion-imager'
-
-begin
-  require 'bundler'
-  Bundler.require
-rescue LoadError
-end
+Bundler.require
 
 Motion::Project::App.setup do |app|
   app.name = '一读'
@@ -58,6 +49,7 @@ Motion::Project::App.setup do |app|
     pod 'MWFeedParser'
     pod 'NSHash', '~> 1.0.1'
     pod 'MCSwipeTableViewCell'
+    pod 'AVOSCloud'
   end
 
   app.release do

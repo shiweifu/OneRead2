@@ -6,6 +6,8 @@ describe '测试日报类源' do
     url  = 'https://coding.net/u/shiweifu/p/OneReadRouter/git/raw/master/zhihu.r'
     name = '知乎日报'
     @js_obj = JSSource.build({url: url, name: name})
+    @items = []
+
   end
 
   it 'get daily source list' do
@@ -40,6 +42,18 @@ describe '测试日报类源' do
       i = items.first
       model_url = @js_obj.url_with_model i
       model_url.should.not.equal ""
+    end
+  end
+
+  it 'daily dataSource load' do
+    dds = DailyDataSource.build({ source: @js_obj })
+    (dds.instance_of? DailyDataSource).should.be == true
+    dds.items do | result |
+      (result.empty?).should.not == true
+    end
+
+    wait 2 do
+
     end
   end
 
