@@ -30,14 +30,19 @@ class MenuController < UITableViewController
   end
 
   def tableView(tv, didSelectRowAtIndexPath: indexPath)
-    sd = App.shared.delegate
+    tableView.deselectRowAtIndexPath(indexPath, animated:true)
+    if indexPath.row == 0
 
-    if indexPath.row == 1
+    elsif indexPath.row == menu_items.count - 1
+      # 设置
+
+    elsif indexPath.row == menu_items.count - 2
+      # 历史
+    else
       c = ListController.new
       c.source = menu_items[indexPath.row]
       open_controller c
     end
-
   end
 
 

@@ -50,7 +50,6 @@ class JSSource
     detail_url_func = context_router["detail_url"]
     url_value       = detail_url_func.callWithArguments([m.to_json])
     result          = url_value.toString
-    p "###model url: #{result}"
     result
   end
 
