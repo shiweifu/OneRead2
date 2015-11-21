@@ -16,6 +16,11 @@ class JSSource
   end
 
   def load_router(&callback)
+
+    if @is_loaded
+      callback.call(true)
+    end
+
     Http.get_string(@url, {}) do | result |
       if result
         @js_context.evaluateScript(result)
