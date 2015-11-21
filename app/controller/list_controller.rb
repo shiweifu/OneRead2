@@ -94,11 +94,6 @@ class ListController < UITableViewController
     it = @ds.itemAtIndexPath(indexPath)
     p "-----it", it
 
-    # url = "/read"
-    # params = {"title" => it.name, "type" => "", "model_id" => it.id, "link" => it.link}
-    # p '----read params:', params
-    # rc = find_router(url, {params: params})
-    # p "----", rc
     rc = ReadController.new
     rc.item = it
     navigationController.pushViewController(rc, animated:true)
