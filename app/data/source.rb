@@ -103,3 +103,67 @@ class JSSource
 
 end
 
+
+class RSSSource
+
+  CELL_CLASS  = BasicCell
+
+  attr_reader :display_name
+  attr_reader :is_loaded
+
+  def initialize(opts  =  {})
+    @url               = opts[:url]
+    @display_name      = opts[:name]
+    @is_loaded         = false
+  end
+
+  def load_router(&callback)
+    callback.call(true)
+  end
+
+  def self.build(opts = {})
+
+    unless opts.has_key? :name or opts.has_key? :js_content
+      raise ArgumentError.new('name and js_content should be set')
+    end
+
+    m = RSSSource.new(opts)
+    return m
+  end
+
+  def path
+    "/list"
+  end
+
+  def url_with_model(m)
+    m.link
+  end
+
+  def items_with_page(p, &complete)
+
+    @items_complete_callback = complete
+
+    @feed_parser = BW::RSSParser.new(@url)
+    @feed_parser.delegate = self
+    @rss_items = []
+    @feed_parser.parse do |item|
+      it = Item.new({:id          => item.guid,
+                     :title       => item.title,
+                     :createdDate => item.pubDate,
+                     :link        => item.link,
+                     :excerpt     => ""})
+      @rss_items << it
+    end
+
+  end
+
+  def page_url(p)
+    @url
+  end
+
+  def when_parser_is_done
+    @items_complete_callback.call(@rss_items)
+  end
+
+end
+

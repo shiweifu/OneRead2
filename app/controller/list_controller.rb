@@ -19,6 +19,7 @@ class ListController < UITableViewController
       end
 
       refresh
+    elsif source.instance_of? RSSSource
     else
       msg "加载错误"
     end
