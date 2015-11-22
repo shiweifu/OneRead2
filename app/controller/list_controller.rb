@@ -8,8 +8,8 @@ class ListController < UITableViewController
   def viewDidLoad
     self.title = @source.display_name
 
-    if source.instance_of? JSSource
-      @dds = DailyDataSource.build({source: source})
+    if source
+      @dds = DataSource.build({source: source})
 
       @ds = SSArrayDataSource.alloc.initWithItems([])
       @ds.tableView = self.tableView
@@ -19,7 +19,7 @@ class ListController < UITableViewController
       end
 
       refresh
-    elsif source.instance_of? RSSSource
+
     else
       msg "加载错误"
     end
@@ -66,11 +66,15 @@ class ListController < UITableViewController
 
     msg("正在加载..")
 
-    @dds.items do | its |
-      @ds.clearItems
-      @ds.appendItems its
-      hide_msg
-      tableView.reloadData
+    Dispatch::Queue.concurrent.async do
+      @dds.items do | its |
+        Dispatch::Queue.main.async do
+          @ds.clearItems
+          @ds.appendItems its
+          hide_msg
+          tableView.reloadData
+        end
+      end
     end
   end
 

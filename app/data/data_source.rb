@@ -1,7 +1,6 @@
 # 得到所有的日报类源，并作为TableView的DataSource来使用
-# 得到所有的日报类源，并作为TableView的DataSource来使用
 
-class DailyDataSource < SSArrayDataSource
+class DataSource < SSArrayDataSource
 
   attr_accessor :page
 
@@ -33,7 +32,7 @@ class DailyDataSource < SSArrayDataSource
       raise ArgumentError.new('source should not set')
     end
 
-    DailyDataSource.new opts
+    DataSource.new opts
 
   end
 

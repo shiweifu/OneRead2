@@ -46,8 +46,8 @@ describe '测试日报类源' do
   end
 
   it 'daily dataSource load' do
-    dds = DailyDataSource.build({ source: @js_obj })
-    (dds.instance_of? DailyDataSource).should.be == true
+    dds = DataSource.build({ source: @js_obj })
+    (dds.instance_of? DataSource).should.be == true
     dds.items do | result |
       (result.empty?).should.not == true
     end

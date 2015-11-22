@@ -1,8 +1,8 @@
 describe '测试公众号源' do
 
   before do
-    @rss_test = 'http://weirss.me/account/bitsea/feed/'
-    @rss_source = RSSSource.build({name: "Caobianwangshi", url: @rss_test})
+    @rss_test = 'http://www.hi-pda.com/forum/rss.php?fid=2&auth=614fraJZUi3pNmeDRdhFmKEHcy%2B6rz82xnfs3Rug7G1VjpOnclRfyxSgDR%2B6Ew'
+    @rss_source = RSSSource.build({name: "hi-pda", url: @rss_test})
     @items = []
   end
 
