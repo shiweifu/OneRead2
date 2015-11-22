@@ -6,6 +6,7 @@ class JSSource
 
   attr_reader :display_name
   attr_reader :is_loaded
+  attr_reader :url
 
   def initialize(opts  =  {})
     @url               = opts[:url]

@@ -6,7 +6,18 @@ class MenuController < UITableViewController
 
   def viewDidLoad
     self.tableView.setTableFooterView(UIView.new)
+
+    "article_source_changed".add_observer(self, "on_source_changed")
+
     refresh
+  end
+
+  def on_source_changed
+    refresh
+  end
+
+  def dealloc
+    "article_source_changed".remove_observer(self)
   end
 
   def refresh
@@ -35,7 +46,8 @@ class MenuController < UITableViewController
 
     elsif indexPath.row == menu_items.count - 1
       # 设置
-
+      c = find_router "/setting"
+      present_controller c
     elsif indexPath.row == menu_items.count - 2
       # 历史
     else

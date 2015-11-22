@@ -9,7 +9,11 @@ gem 'sugarcube', :require => [
   'sugarcube-factories',
   'sugarcube-ui',
   'sugarcube-color',
-  'sugarcube-foundation'
+  'sugarcube-foundation',
+  'sugarcube-constants',
+  'sugarcube-timer',
+  'sugarcube-notifications',
+  'sugarcube-nsuserdefaults'
 ]
 gem 'motion-imager'
 

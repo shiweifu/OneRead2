@@ -1,6 +1,5 @@
 module Common
 
-
   def feedback_info
     app_version    = s = NSBundle.mainBundle.infoDictionary.objectForKey("CFBundleVersion")
     device_model   = UIDevice.currentDevice.model
@@ -45,16 +44,16 @@ module Common
     d.string_with_format(f, options={:unicode => true})
   end
 
-  def Common.cache_object(obj, k)
-    EGOCache.globalCache.setObject(obj, forKey:k)
+  def cache_object(obj, k)
+    NSUserDefaults[k] = obj
   end
 
   def remove_key(k)
-    EGOCache.globalCache.removeCacheForKey(k)
+    NSUserDefaults[k] = nil
   end
 
-  def Common.object_from_cache(k)
-    EGOCache.globalCache.objectForKey(k)
+  def object_from_cache(k)
+    NSUserDefaults[k]
   end
 
   def is_iphone6?
