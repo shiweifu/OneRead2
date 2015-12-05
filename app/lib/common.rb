@@ -34,10 +34,7 @@ module Common
 
     puts("path:", path)
 
-
-    string = NSString.stringWithContentsOfFile(path,
-                                               encoding: NSUTF8StringEncoding,
-                                               error: nil)
+    string = NSString.stringWithContentsOfFile(path, encoding: NSUTF8StringEncoding, error: nil)
   end
 
   def date_to_str(d, f='yyyyMMdd')

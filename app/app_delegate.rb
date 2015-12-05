@@ -1,5 +1,7 @@
 class AppDelegate
 
+  include Common
+
   attr_accessor :revealController
 
   def application(application, didFinishLaunchingWithOptions:launchOptions)

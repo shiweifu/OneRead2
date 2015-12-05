@@ -168,3 +168,80 @@ class RSSSource
 
 end
 
+
+class TRSource
+
+  CELL_CLASS  = BasicCell
+
+  attr_reader :display_name
+  attr_reader :is_loaded
+  attr_reader :url
+
+  def initialize(opts  =  {})
+    @url          = opts[:url]
+    @display_name = opts[:name]
+    @selector     = opts[:selector]
+    @base_url     = opts[:base_url]
+    @is_loaded    = false
+  end
+
+  def load_router(&callback)
+
+    if @is_loaded
+      callback.call(true)
+    end
+
+    Http.get_string(url, {}) do | html |
+      if html
+        document = HTMLDocument.documentWithString html
+        list = document.nodesMatchingSelector(@selector)
+        @article_list = list.map { | r |
+          Item.new({name: r.textContent, link: @base_url + r.attributes['href']})
+        }
+        @is_loaded = true
+        callback.call(true)
+      else
+        callback.call(false)
+      end
+    end
+  end
+
+  def self.build(opts = {})
+
+    unless opts.has_key? :name     or
+           opts.has_key? :url      or
+           opts.has_key? :selector or
+           opts.has_key? :base_url
+      raise ArgumentError.new('name, url, base_url and selector should be set')
+    end
+
+    m = TRSource.new(opts)
+    return m
+  end
+
+  def path
+    "/list"
+  end
+
+  def url_with_model(m)
+    m.url
+  end
+
+  def items_with_page(p, &complete)
+    complete.call(@article_list)
+  end
+
+  def cell_config_action
+    l = lambda { |cell, object, parent_view, index_path|
+      cell.model = object
+    }
+    l
+  end
+
+  def page_url(p)
+    url
+  end
+
+end
+
+

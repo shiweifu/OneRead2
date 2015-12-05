@@ -23,7 +23,6 @@ describe "网络访问测试" do
 
   it  'get json from url' do
 
-    [].should.be.empty
     Http::get_json(@json_url, {}) do | result |
       @body_hash = result
     end

@@ -12,7 +12,7 @@ Motion::Project::App.setup do |app|
   app.short_version          = '1.1'
 
   app.identifier           = 'us.dollop.oneread'
-  app.deployment_target    = '7.0'
+  app.deployment_target    = '9.0'
   app.sdk_version          = '9.1'
 
   app.frameworks          += %w(UIKit)
@@ -50,6 +50,7 @@ Motion::Project::App.setup do |app|
     pod 'NSHash', '~> 1.0.1'
     pod 'MCSwipeTableViewCell'
     pod 'AVOSCloud'
+    pod 'HTMLReader'
   end
 
   app.release do
