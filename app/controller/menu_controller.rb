@@ -53,6 +53,10 @@ class MenuController < UITableViewController
     else
       c = ListController.new
       c.source = menu_items[indexPath.row]
+      p "----c.source: #{c.source}"
+
+
+
       open_controller c
     end
   end

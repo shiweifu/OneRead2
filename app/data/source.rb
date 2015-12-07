@@ -80,6 +80,10 @@ class JSSource
     result.toString
   end
 
+  def json_obj
+    {name: @display_name, url: @url}
+  end
+
   def items_from_json(json_str)
     func       = context_router["items_from_json"]
     result     = func.callWithArguments([json_str])
@@ -124,8 +128,8 @@ class RSSSource
 
   def self.build(opts = {})
 
-    unless opts.has_key? :name or opts.has_key? :js_content
-      raise ArgumentError.new('name and js_content should be set')
+    unless opts.has_key? :name or opts.has_key? :url
+      raise ArgumentError.new('name and url should be set')
     end
 
     m = RSSSource.new(opts)
@@ -166,6 +170,9 @@ class RSSSource
     @items_complete_callback.call(@rss_items)
   end
 
+  def json_obj
+    {name: @display_name, url: @url}
+  end
 end
 
 
@@ -240,6 +247,10 @@ class TRSource
 
   def page_url(p)
     url
+  end
+
+  def json_obj
+    {name: @display_name, url: @url, selector: @selector, base_url: @base_url}
   end
 
 end

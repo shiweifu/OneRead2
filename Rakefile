@@ -8,11 +8,11 @@ Bundler.require
 Motion::Project::App.setup do |app|
   app.name = '一读'
 
-  app.version                = '1.1.201511220851'
-  app.short_version          = '1.1'
+  app.version              = '1.1.201512071700'
+  app.short_version        = '1.1'
 
   app.identifier           = 'us.dollop.oneread'
-  app.deployment_target    = '9.0'
+  app.deployment_target    = '7.0'
   app.sdk_version          = '9.1'
 
   app.frameworks          += %w(UIKit)
@@ -62,8 +62,9 @@ Motion::Project::App.setup do |app|
 
 
   app.development do
-    app.provisioning_profile = './development.mobileprovision'
-
+    # app.provisioning_profile = './development.mobileprovision'
+    # app.provisioning_profile = '/Users/shiweifu/Downloads/oneread_development2.mobileprovision'
+    app.provisioning_profile = '/Users/shiweifu/Downloads/oneread_development-2.mobileprovision'
   end
 
 end

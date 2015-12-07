@@ -13,7 +13,8 @@ gem 'sugarcube', :require => [
   'sugarcube-constants',
   'sugarcube-timer',
   'sugarcube-notifications',
-  'sugarcube-nsuserdefaults'
+  'sugarcube-nsuserdefaults',
+  'sugarcube-nsdata'
 ]
 gem 'motion-imager'
 

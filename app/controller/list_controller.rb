@@ -49,7 +49,12 @@ class ListController < UITableViewController
       back_page
     end
 
-    right_bar_button_items = [next_item, back_item, refresh_item]
+    right_bar_button_items = [refresh_item, next_item, back_item, ]
+
+    # 只有日报类的具有翻页功能
+    unless source.instance_of? JSSource
+      right_bar_button_items = [refresh_item]
+    end
 
     self.navigationItem.rightBarButtonItems = right_bar_button_items
   end

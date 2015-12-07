@@ -4,6 +4,28 @@ class AppDelegate
 
   attr_accessor :revealController
 
+  def application(app, openURL:url, sourceApplication:sa, annotation:ann)
+    if (OpenShare.handleOpenURL(url))
+      p "handle open share with url: #{url}"
+      return true
+    end
+
+    if url.absoluteString == "pocketapp5678:authorizationFinished"
+      puts("准备获取access_token")
+      pocket_code = NSUserDefaults[:pocket_code]
+      params = {"consumer_key" => Define::POCKET_CONSUMER_KEY, "code" => pocket_code}
+      puts("auth params:#{params}")
+      Http.post_form("https://getpocket.com/v3/oauth/authorize", params) do | result |
+        p "----auth result: #{result}"
+        result = result.nsstring
+        access_token = result.split("=")[1].split("&")[0]
+        NSUserDefaults[:pocket_access_token] = access_token
+      end
+    end
+
+  end
+
+
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     startController = StartController.new
     startController.view.backgroundColor = UIColor.whiteColor

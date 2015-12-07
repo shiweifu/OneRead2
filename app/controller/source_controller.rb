@@ -15,8 +15,9 @@ class SourceController < UIViewController
     self.navigationItem.titleView = self.segmented_control
 
     right_item = UIBarButtonItem.done do
-      cache_object(@rss_list,   :rss_list)
-      cache_object(@daily_list, :daily_list)
+      cache_object(@rss_list,      :rss_list)
+      cache_object(@daily_list,    :daily_list)
+      cache_object(@ten_read_list, :ten_read_list)
 
       # 确保缓存已经写入
       "article_source_changed".post_notification
@@ -38,11 +39,13 @@ class SourceController < UIViewController
     self.segmented_control.selectedSegmentIndex = 0
     self.segmented_control.sendActionsForControlEvents(UIControlEventValueChanged)
 
-    @daily_list = Common::object_from_cache(:daily_list) || []
-    @rss_list   = Common::object_from_cache(:rss_list)   || []
+    @daily_list    = object_from_cache(:daily_list)      || []
+    @rss_list      = object_from_cache(:rss_list)        || []
+    @ten_read_list = object_from_cache(:ten_read_list)   || []
 
-    @daily_list = [].concat @daily_list
-    @rss_list   = [].concat @rss_list
+    @daily_list    = [].concat @daily_list
+    @rss_list      = [].concat @rss_list
+    @ten_read_list = [].concat @ten_read_list
 
   end
 
@@ -61,9 +64,13 @@ class SourceController < UIViewController
       if segmented_control.selectedSegmentIndex == 0
         # Daily
         a = :checkmark unless @daily_list.select { |n| n[:name] == object.display_name }.empty?
-      else
+      elsif segmented_control.selectedSegmentIndex == 1
         # RSS
         a = :checkmark unless @rss_list.select { |n| n[:name] == object.display_name }.empty?
+
+      elsif segmented_control.selectedSegmentIndex == 2
+        # TenRead
+        a = :checkmark unless @ten_read_list.select { |n| n[:name] == object.display_name }.empty?
       end
 
       cell = UITableViewCell.default('cell_identifier',
@@ -84,7 +91,7 @@ class SourceController < UIViewController
 
   def segmented_control
     unless @segmented_control
-      @segmented_control = UISegmentedControl.bar(["日报", "RSS"])
+      @segmented_control = UISegmentedControl.bar(['日报', 'RSS', '十阅'])
       @segmented_control.addTarget(self, action:'on_segmented_control_change:', forControlEvents:UIControlEventValueChanged)
     end
     @segmented_control
@@ -95,9 +102,11 @@ class SourceController < UIViewController
     # 选择日报的时候，需要刷新列表
     if sender.selectedSegmentIndex == 0
       refresh_daily_source
-    else
+    elsif sender.selectedSegmentIndex == 1
     # 选择RSS的时候，不需要刷新列表
       refresh_rss_source
+    elsif sender.selectedSegmentIndex == 2
+      refresh_ten_read_source
     end
   end
 
@@ -105,7 +114,7 @@ class SourceController < UIViewController
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
 
     s = @data_source.itemAtIndexPath indexPath
-    h = {url: s.url, name: s.display_name}
+    h = s.json_obj
 
     cell = tableView.cellForRowAtIndexPath(indexPath)
     if cell.accessoryType == UITableViewCellAccessoryCheckmark
@@ -114,9 +123,12 @@ class SourceController < UIViewController
       if segmented_control.selectedSegmentIndex == 0
         # Daily
         @daily_list.delete_if { | it | it[:url] == h[:url] }
-      else
+      elsif segmented_control.selectedSegmentIndex == 1
         # RSS
         @rss_list.delete_if { | it | it[:url] == h[:url] }
+      elsif segmented_control.selectedSegmentIndex == 2
+        # TenRead
+        @ten_read_list.delete_if { | it | it[:url] == h[:url] }
       end
     else
       cell.accessoryType = UITableViewCellAccessoryCheckmark
@@ -124,12 +136,30 @@ class SourceController < UIViewController
       if segmented_control.selectedSegmentIndex == 0
         # Daily
         @daily_list << h
-      else
+      elsif segmented_control.selectedSegmentIndex == 1
         # RSS
         @rss_list   << h
+
+      elsif segmented_control.selectedSegmentIndex == 2
+        # TenRead
+        @ten_read_list   << h
       end
     end
 
+  end
+
+  def refresh_ten_read_source
+    list_url    = Config::APP_TEN_READ_SOURCE_LIST_URL
+
+    @data_source.clearItems
+    Http.get_string(list_url, {}) do  | items_str |
+      @data_source.clearItems
+      items = BW::JSON.parse(items_str)
+      items = items.map { | it |
+        TRSource.build(it)
+      }
+      @data_source.appendItems items
+    end
   end
 
   def refresh_rss_source

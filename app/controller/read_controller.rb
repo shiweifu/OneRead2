@@ -82,7 +82,7 @@ class ReadController < UIViewController
   def on_save(sender)
       UIActionSheet.alert('选择操作', buttons: ['取消', nil, '保存到Pocket']
     ) do |button|
-      self.save_to_pocket self.link   if button == '保存到Pocket'
+      self.save_to_pocket link   if button == '保存到Pocket'
     end
   end
 
@@ -140,24 +140,23 @@ class ReadController < UIViewController
   end
 
   def save_to_pocket(src)
-    client = Http.new
     access_token = NSUserDefaults[:pocket_access_token]
 
     puts("pocket access_token: #{access_token}")
+    p "----src: #{src}"
 
     if access_token
       params = {"url"          => src,
-                "consumer_key" => Config::POCKET_CONSUMER_KEY,
+                "consumer_key" => Define::POCKET_CONSUMER_KEY,
                 "access_token" => access_token}
-
-      puts("-----params: #{params}")
-      msg("正在忙活着")
-      client.post("https://getpocket.com/v3/add", params) do | s |
+      p "---params: #{params}"
+      Http.post_form("https://getpocket.com/v3/add", params) do | s |
+        p "---add to pocket: #{s}"
         msg("已保存到Pocket", type=:success)
       end
     else
-      params = {"consumer_key" => Config::POCKET_CONSUMER_KEY, "redirect_uri" => "pocketapp5678:authorizationFinished"}
-      client.post("https://getpocket.com/v3/oauth/request", params) do | s |
+      params = {"consumer_key" => Define::POCKET_CONSUMER_KEY, "redirect_uri" => "pocketapp5678:authorizationFinished"}
+      Http.post_form("https://getpocket.com/v3/oauth/request", params) do | s |
         s = s.nsstring
         print(s.class)
         code = s.split("=")[1]

@@ -19,7 +19,7 @@ module Http
     end
   end
 
-  def post_form(url, params, &callback)
+  def Http.post_form(url, params, &callback)
     AFMotion::HTTP.post(url, params=params) do |result|
       callback.call(result.object)
     end
