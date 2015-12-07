@@ -117,6 +117,15 @@ class ListController < UITableViewController
     it = @ds.itemAtIndexPath(indexPath)
     p "-----it", it
 
+    history_list = [].concat(object_from_cache(:history) || [])
+    # 确保不会重复添加
+    history_list.delete_if { | hl | hl[:link] == it.link }
+
+    hash_obj = it.to_hash
+    p "----hash obj: #{hash_obj}"
+    history_list.insert(0, hash_obj)
+    cache_object(history_list, :history)
+
     rc = ReadController.new
     rc.item = it
     navigationController.pushViewController(rc, animated:true)

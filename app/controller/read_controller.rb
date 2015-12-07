@@ -107,8 +107,8 @@ class ReadController < UIViewController
   def share_to_wx_group
 
     m = OSMessage.new
-    m.title = ''
-    m.desc  = title_text
+    m.title = title_text
+    m.desc  = ''
     m.link  = link
     m.image="Icon-60".uiimage.nsdata
 

@@ -6,7 +6,7 @@ class HistoryCell < SSBaseTableCell
 
 end
 
-class HistoryController
+class HistoryController < UITableViewController
 
   def viewWillAppear(animated)
     revealController = self.revealViewController
@@ -23,18 +23,21 @@ class HistoryController
 
   def viewDidLoad
     @items = object_from_cache(:history)
+    @items = @items.map { | json_obj |
+      Item.new json_obj
+    }
 
     @data_source = SSArrayDataSource.alloc.initWithItems(@items)
-    @data_source.cellConfigureBlock = lambda { |cell, object, parent_view, index_path|
-      t = object.params['title']
-      t = date_to_str(object.created_date, '[M-dd]') + ' ' + t
+    @data_source.cellConfigureBlock = lambda { | cell, it, parent_view, index_path |
+      t = it.name
+      # t = date_to_str(it.access_date, '[M-dd]') + ' ' + t
       cell.textLabel.text = t
     }
 
     @data_source.tableActionBlock = lambda {|at, pv, ip| false }
     @data_source.cellClass = HistoryCell
 
-    @data_source.tableView = tableView
+    @data_source.tableView = self.tableView
     tableView.dataSource = @data_source
 
     self.title = '历史'
@@ -64,17 +67,15 @@ class HistoryController
   end
 
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    m = @data_source.itemAtIndexPath(indexPath)
-    url = '/read'
-    p m
-    params = {"title" => m.title, "type" => m.type, "link" => m.url}
-
-    rc = find_router(url, params)
-    if rc
-      self.navigationController.pushViewController(rc, animated:true)
-    end
+    p "didSelect"
 
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
+
+    it = @data_source.itemAtIndexPath(indexPath)
+    p "-----it", it
+    rc = ReadController.new
+    rc.item = it
+    navigationController.pushViewController(rc, animated:true)
   end
 
 end

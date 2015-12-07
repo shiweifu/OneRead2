@@ -20,5 +20,6 @@ samples/ios/*/vendor
 vendor/*
 debugger_cmds
 config.yaml
-app/lib/config.rb
-app/config/config.rb
+# app/lib/config.rb
+# app/config/config.rb
+define.rb
