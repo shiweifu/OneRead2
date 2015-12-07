@@ -50,13 +50,12 @@ class MenuController < UITableViewController
       present_controller c
     elsif indexPath.row == menu_items.count - 2
       # 历史
+      history_controller = find_router("/history", dic={})
+      open_controller history_controller
     else
       c = ListController.new
       c.source = menu_items[indexPath.row]
       p "----c.source: #{c.source}"
-
-
-
       open_controller c
     end
   end

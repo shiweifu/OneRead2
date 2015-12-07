@@ -57,14 +57,12 @@ Motion::Project::App.setup do |app|
     app.codesign_certificate = 'iPhone Distribution: shi weifu (9KL9R4225X)'
     # app.provisioning_profile = '/Users/shiweifu/Downloads/oneread_appstore_dist.mobileprovision'
     app.provisioning_profile = '/Users/shiweifu/Downloads/oneread_adhoc_dist.mobileprovision'
-    app.entitlements['beta-reports-active'] = true
+    # app.entitlements['beta-reports-active'] = true
   end
 
 
   app.development do
-    # app.provisioning_profile = './development.mobileprovision'
-    # app.provisioning_profile = '/Users/shiweifu/Downloads/oneread_development2.mobileprovision'
-    app.provisioning_profile = '/Users/shiweifu/Downloads/oneread_development-2.mobileprovision'
+    app.provisioning_profile = '/Users/shiweifu/Downloads/oneread_development.mobileprovision'
   end
 
 end
