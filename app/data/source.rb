@@ -203,7 +203,12 @@ class TRSource
         document = HTMLDocument.documentWithString html
         list = document.nodesMatchingSelector(@selector)
         @article_list = list.map { | r |
-          Item.new({name: r.textContent, link: @base_url + r.attributes['href']})
+          url = r.attributes['href']
+          unless url.index('http://') or url.index('https://')
+            url = @base_url + url
+          end
+
+          Item.new({name: r.textContent, link: url})
         }
         @is_loaded = true
         callback.call(true)
