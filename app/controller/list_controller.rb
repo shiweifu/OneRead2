@@ -114,6 +114,8 @@ class ListController < UITableViewController
   def tableView(tv, didSelectRowAtIndexPath: indexPath)
     p "didSelect"
 
+    tv.deselectRowAtIndexPath(indexPath, animated:true)
+
     it = @ds.itemAtIndexPath(indexPath)
     p "-----it", it
 

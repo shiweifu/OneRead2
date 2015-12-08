@@ -1,6 +1,7 @@
 class SettingController < UITableViewController
 
   include Router
+  include Common
 
   def viewDidLoad
     @titles = [['关于', '分享给朋友', '去AppStore打分'], ['反馈']]
@@ -49,18 +50,17 @@ class SettingController < UITableViewController
 
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
 
+    tableView.deselectRowAtIndexPath(indexPath, animated:true)
+
     if indexPath.section == 1 && indexPath.row == 0
       # 反馈
-      controller = MFMailComposeViewController.alloc.init
-      controller.mailComposeDelegate = self
-      subject = NSString.stringWithFormat("关于「一读」的反馈")
-      controller.setSubject(subject)
-      controller.setToRecipients(["shiweifu@gmail.com"])
-      controller.setMessageBody(feedback_info, isHTML:false)
-      if (controller)
-        self.presentViewController(controller, animated:true, completion:nil)
-      end
-
+      feedbackViewController = LCUserFeedbackViewController.alloc.init
+      feedbackViewController.feedbackTitle = nil
+      feedbackViewController.contact = nil
+      feedbackViewController.contactHeaderHidden = true
+      feedbackViewController.presented = true
+      feedbackViewController.navigationBarStyle = LCUserFeedbackNavigationBarStyleNone
+      present_controller feedbackViewController
     elsif indexPath.section == 0 && indexPath.row == 0
       # 关于
       controller = find_router("/about", {"title" => "关于"})
