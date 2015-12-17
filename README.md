@@ -59,9 +59,6 @@ https://coding.net/u/shiweifu/p/OneReadRouter/git/blob/master/rss_list
 
 https://itunes.apple.com/us/app/yi-du/id1032943622?ls=1&mt=8
 
-# 那么，哪里可以用？
-
-https://itunes.apple.com/us/app/yi-du/id1032943622?ls=1&mt=8
 
 # 如何贡献？
 
