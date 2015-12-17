@@ -9,6 +9,7 @@ class Item
     @tags         = json[:tags]
     @created_date = json[:createdDate]
     @link         = json[:link] || json[:url] || json[:original_url]
+    @link         = @link.strip
     @images       = json[:images]
     # 冗余的属性,用来标示history中的访问时间
     @access_date  = json[:access_date]

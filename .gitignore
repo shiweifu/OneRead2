@@ -23,3 +23,4 @@ config.yaml
 # app/lib/config.rb
 # app/config/config.rb
 define.rb
+app/lib/define.rb

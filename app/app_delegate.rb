@@ -1,6 +1,7 @@
 class AppDelegate
 
   include Common
+  include Define
 
   attr_accessor :revealController
 
@@ -58,8 +59,8 @@ class AppDelegate
   end
 
   def setup_cloud
-    AVOSCloud.setApplicationId("hOcyOHJhkNTC3V5pU2f2tnyx", clientKey:"iYE2opHhq36VMK99rTho8J8b")
-    OpenShare.connectWeixinWithAppId("wxb89d2a6ca7643c4f")
+    AVOSCloud.setApplicationId(AVCLOUD_ID, clientKey:AVCLOUD_KEY)
+    OpenShare.connectWeixinWithAppId(WEIXIN_ID)
   end
 
 
